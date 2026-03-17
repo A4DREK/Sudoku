@@ -1,0 +1,13 @@
+#For .class archives
+*.class
+*.war
+*.ear
+*.jar
+
+#For VSCode archives
+*.vscode/
+
+#For the MacOS 
+*.DS_Store
+
+
