@@ -11,6 +11,7 @@ public class Sudoku{
 
     if(resolver()){
       System.out.println("Sudoku resuelto");
+      imprimeSolucion();
     }else{
       System.out.println("No hay solución del sudoku");
     }
@@ -45,6 +46,7 @@ public class Sudoku{
     }
     return true; 
   }
+
   private boolean posicionValida(int fila, int col, int num){
     
     int subFila = fila - (fila % 3), subCol = col - (col % 3);
@@ -53,8 +55,8 @@ public class Sudoku{
       if(tablero[fila][i] == num || tablero[i][col] == num) return false;
     }
 
-    for(int i = 0; i < tablero.length; i++){
-      for(int j = 0; j < tablero.length; j++){
+    for(int i = 0; i < 3; i++){
+      for(int j = 0; j < 3; j++){
         if(tablero[i + subFila][j + subCol] == num) return false;
       }
     }
@@ -78,5 +80,26 @@ public class Sudoku{
 
   }
 
-  
+  public static void main(String[] args){
+
+    int [][] tablero = {{5, 3, 0, 0, 7, 0, 0, 0, 0},
+                        {6, 0, 0, 1, 9, 5, 0, 0, 0},
+                        {0, 9, 8, 0, 0, 0, 0, 6, 0},
+                        {8, 0, 0, 0, 6, 0, 0, 0, 3},
+                        {4, 0, 0, 8, 0, 3, 0, 0, 1},
+                        {7, 0, 0, 0, 2, 0, 0, 0, 6},
+                        {0, 6, 0, 0, 0, 0, 2, 8, 0},
+                        {0, 0, 0, 4, 1, 9, 0, 0, 5},
+                        {0, 0, 0, 0, 8, 0, 0, 7, 9}};
+    Sudoku prueba = new Sudoku(tablero);
+
+    System.out.println("Tablero inicial: ");
+    prueba.imprimeSolucion();
+
+    System.out.println("Tablero resuelto: ");
+    prueba.resolverSudoku();
+
+
+
+  }
 }
