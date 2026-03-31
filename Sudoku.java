@@ -4,22 +4,28 @@ public class Sudoku{
   private int [][] tablero;
 
   public Sudoku(int [][] tablero){
+    if(tablero == null) 
+      throw new NullPointerException("El sudoku no puede ser NULL");
+
+    if(tablero.length != 9 || tablero[0].length != 9)
+      throw new IllegalArgumentException("El tablero debe de ser 9x9");
+
+
     this.tablero = tablero;
   }
 
-  public void resolverSudoku(){
-
-    if(resolver()){
-      System.out.println("Sudoku resuelto");
-      imprimeSolucion();
-    }else{
-      System.out.println("No hay solución del sudoku");
-    }
-
-  }
-
-  private boolean resolver(){
-    //Se agrega este método porque el método de resolverSudoku al tener un retorno de tipo VOID, es imposible hacer recursión lol
+  /*
+   * Se modificó el tipo de valor de regreso del método de void a boolean
+   * simplemente porque al usar un algoritmo de BackTracking
+   * hacemos uso de recursión y pues si el algoritmo de resolver Sudoku
+   * solo se quedaría en void, no tendría ningún parámetro para que 
+   * se pueda llevar la recursión ya que si llega al punto que debe de llegar
+   * ¿Qué devuele la función?, debe de regresar un dato afirmativo o un dato 
+   * de que no se cumplió la recursión por tanto se hace el cambio de retorno 
+   * de void a boolean, simplemente para que funcione la recursion
+   */
+  
+  public boolean resolverSudoku(){
 
     for(int i = 0; i < tablero.length; i ++){
 
@@ -32,7 +38,7 @@ public class Sudoku{
             if(posicionValida(i, j, numPrueba)){
               tablero[i][j] = numPrueba;
 
-              if(resolver()){
+              if(resolverSudoku()){
                 return true;
               }else{
                 tablero[i][j] = 0;
@@ -44,10 +50,14 @@ public class Sudoku{
         }
       }
     }
-    return true; 
+    return true;
+
   }
 
+
   private boolean posicionValida(int fila, int col, int num){
+    if(fila < 0 || fila > 8 ||col < 0|| col > 8 || num > 9 || num < 1 ) 
+      throw new IllegalArgumentException("Número debe de ser positivo");
     
     int subFila = fila - (fila % 3), subCol = col - (col % 3);
 
@@ -77,29 +87,6 @@ public class Sudoku{
             }
             System.out.println();
     }
-
-  }
-
-  public static void main(String[] args){
-
-    int [][] tablero = {{5, 3, 0, 0, 7, 0, 0, 0, 0},
-                        {6, 0, 0, 1, 9, 5, 0, 0, 0},
-                        {0, 9, 8, 0, 0, 0, 0, 6, 0},
-                        {8, 0, 0, 0, 6, 0, 0, 0, 3},
-                        {4, 0, 0, 8, 0, 3, 0, 0, 1},
-                        {7, 0, 0, 0, 2, 0, 0, 0, 6},
-                        {0, 6, 0, 0, 0, 0, 2, 8, 0},
-                        {0, 0, 0, 4, 1, 9, 0, 0, 5},
-                        {0, 0, 0, 0, 8, 0, 0, 7, 9}};
-    Sudoku prueba = new Sudoku(tablero);
-
-    System.out.println("Tablero inicial: ");
-    prueba.imprimeSolucion();
-
-    System.out.println("Tablero resuelto: ");
-    prueba.resolverSudoku();
-
-
 
   }
 }
